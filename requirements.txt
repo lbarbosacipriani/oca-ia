@@ -2,3 +2,4 @@ pandas
 pillow
 numpy 
 torch
+scikit-learn
