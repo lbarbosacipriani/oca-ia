@@ -36,4 +36,4 @@ def treat_image_PIL(img_path, type_return=2):
     if type_return ==1:
         return im1 
     else:
-        return np.array(im1,dtype=np.uint8)
+        return np.array([im1,im1,im1],dtype=np.uint8)
