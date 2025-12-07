@@ -13,3 +13,10 @@ Depois disso, temos uma coluna para cada classe do banco de dados. Nesse banco d
 FA,TA/Flutter,TPSV/TS,TV/FV,BAV 2º/3º/Avanc./BS,Supra ST,Corrente de Lesao,Extrassistole,BRD,BRE,MP,Normal,Outros,Exclusão
 
 Se a coluna tiver o valor 'True' aquele exame apresenta aquela classe, caso contrário, aquele exame não apresenta aquela classe. Repare que um mesmo exame pode ter diferentes classes positivas (problema multilabel)
+
+
+Modelos utiliZados para benchmark
+
+elfficient net
+resnet 50
+mamba
