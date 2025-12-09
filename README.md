@@ -20,3 +20,16 @@ Modelos utiliZados para benchmark
 elfficient net
 resnet 50
 mamba
+
+
+## Historico de altercoes
+
+### 07-12-25
+
+versao estavel com metricas inseridas para calculo posterior no path /output
+
+
+### To do list
+
+- Implementar tratamento de vetores predict_label para ter tamanho variavel de acordo com batch size. 
+
