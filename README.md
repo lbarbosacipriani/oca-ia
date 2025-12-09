@@ -33,3 +33,49 @@ versao estavel com metricas inseridas para calculo posterior no path /output
 
 - Implementar tratamento de vetores predict_label para ter tamanho variavel de acordo com batch size. 
 
+
+
+# Documentacao 
+
+### TRAIN–VALID LOOP
+
+
+Inputs:
+- modelo
+- dataloader_train
+- dataloader_test
+- epocas
+
+-------------------------------------
+### PARA CADA ÉPOCA
+-------------------------------------
+
+### TREINAMENTO
+-----------
+Para cada batch em dataloader_train:
+
+    1) Ler imagens e rótulos
+
+    2) Forward → outputs
+
+    3) Calcular loss
+
+    4) Backward (loss.backward)
+
+    5) optimizer.step()
+
+### VALIDAÇÃO
+---------
+Para cada batch em dataloader_test:
+
+    1) Ler imagens e rótulos
+    2) Forward → outputs
+    3) Calcular loss
+
+### FINAL DA ÉPOCA
+--------------
+- Calcular loss médio de treino
+- Calcular loss médio de validação
+- Exibir métricas da época
+
+(Repete até terminar as épocas)
