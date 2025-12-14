@@ -5,6 +5,7 @@ FILE_PATH = 'dataset/oca_incor.csv'
 
 def config_venv():
     print("Criando ambiente virtual...")
+    os.system("ls -la")
     os.system("python -m venv .incor_env")
     print("Ambiente virtual criado com sucesso.")
 

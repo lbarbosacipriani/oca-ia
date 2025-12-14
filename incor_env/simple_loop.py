@@ -31,8 +31,8 @@ def simple_loop(model, train_image, val_image, epochs, batch_size, fold_index):
     print(f'Number of training images per iteration: {iter_size}')
     #model = modelo( num_classes=5)
     model.to(device)
-    criterion =  nn.L1Loss()
-    #criterion =  nn.CrossEntropyLoss()
+    #criterion =  nn.L1Loss()
+    criterion =  nn.CrossEntropyLoss()
     # Optimizer
     optimizer = optim.Adam(model.parameters(), lr=0.01)
 
@@ -132,7 +132,7 @@ def simple_loop(model, train_image, val_image, epochs, batch_size, fold_index):
     predict_label_full_train_out = np.array(predict_label_full_train)
     true_label_full_train_out = np.array(true_label_full_train)
     print(f'Salvado das metricas de validacao e treino')
-    salvar_metricas(path='output/metricas/valid', name_file_train=f'predict_label_valid{fold_index}.npy', name_file_val=f'true_label_valid{fold_index}.npy', predict_label= predict_label_full_out, true_label= true_label_full_out)
-    salvar_metricas(path='output/metricas/train', name_file_train=f'predict_label_train{fold_index}.npy', name_file_val=f'true_label_train{fold_index}.npy', predict_label= predict_label_full_train_out, true_label= true_label_full_train_out)
+    salvar_metricas(path=f'output/metricas/valid/fold_{fold_index}', name_file_train=f'predict_label_valid_fold_{fold_index}.npy', name_file_val=f'true_label_valid_fold_{fold_index}.npy', predict_label= predict_label_full_out, true_label= true_label_full_out)
+    salvar_metricas(path=f'output/metricas/train/fold_{fold_index}', name_file_train=f'predict_label_train_fold_{fold_index}.npy', name_file_val=f'true_label_train_fold_{fold_index}.npy', predict_label= predict_label_full_train_out, true_label= true_label_full_train_out)
     print(f'Finalizado o salvamento das metricas')
     return train_losses, val_losses, model,predict_label_full_out, true_label_full_out
