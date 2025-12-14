@@ -21,6 +21,7 @@ def salvar_metricas(path, name_file_train='train_loss_total.npy', name_file_val=
     full_path_val = os.path.join(path, name_file_val)
     np.save(full_path_train, np.array(predict_label))
     np.save(full_path_val, np.array(true_label))
+    print(f'Metricas salvas em {path} com os nomes {name_file_train} e {name_file_val} e tamanhos {np.array(predict_label).shape} e {np.array(true_label).shape}')
 
 def simple_loop(model, train_image, val_image, epochs, batch_size, fold_index):
     # Simple training loop
@@ -31,8 +32,8 @@ def simple_loop(model, train_image, val_image, epochs, batch_size, fold_index):
     print(f'Number of training images per iteration: {iter_size}')
     #model = modelo( num_classes=5)
     model.to(device)
-    #criterion =  nn.L1Loss()
-    criterion =  nn.CrossEntropyLoss()
+    criterion =  nn.L1Loss()
+    #criterion =  nn.CrossEntropyLoss()
     # Optimizer
     optimizer = optim.Adam(model.parameters(), lr=0.01)
 
@@ -62,8 +63,9 @@ def simple_loop(model, train_image, val_image, epochs, batch_size, fold_index):
                 _pred_train = outputs.cpu().data.numpy().astype(int).T[0].tolist()
                 if(len(_pred_train) == iter_size):
                     predict_label_train.append(_pred_train)
-                    _true_train = label.cpu().data.numpy().astype(int).T[0].tolist()
+                    _true_train = label.cpu().data.numpy().astype(int).T.tolist()
                     true_label_train.append(_true_train)
+
             except Exception as e:
                 print(f"Concatenation error iter: {e}")
                 print(_pred_train)
@@ -72,7 +74,7 @@ def simple_loop(model, train_image, val_image, epochs, batch_size, fold_index):
         train_losses.append(train_loss)
         try:
             _p_train = predict_label_train
-            _t_train = _true_train
+            _t_train = true_label_train
             predict_label_full_train.append(_p_train)
             true_label_full_train.append(_t_train)
         except Exception as e:
@@ -98,9 +100,10 @@ def simple_loop(model, train_image, val_image, epochs, batch_size, fold_index):
                 #print(predict_label)
                 try:
                     _pred = outputs.cpu().data.numpy().astype(int).T[0].tolist()
+
                     if(len(_pred) == iter_size):
                         predict_label.append(_pred)
-                        _true = label.cpu().data.numpy().astype(int).T[0].tolist()
+                        _true = label.cpu().data.numpy().astype(int).T.tolist()
                         true_label.append(_true)
                 except Exception as e:
                     print(f"Concatenation error iter: {e}")
