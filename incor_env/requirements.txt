@@ -1,0 +1,11 @@
+pandas
+pillow
+numpy 
+torch
+scikit-learn
+timm
+jupyter_contrib_nbextensions
+ipywidgets 
+widgetsnbextension 
+pandas-profiling
+matplotlib
