@@ -5,6 +5,19 @@ FILE_PATH = 'dataset/oca_incor.csv'
 
 
 print("Iniciando o programa...")
+print("Parametros de Execucao:")
+folds = 5
+epochs = 30
+BATCH_SIZE = 5
+flg_salvar_modelos = True
+
+print(f"  Numero de folds para K-Fold Cross Validation: {folds}")
+
+print(f"  Tamanho do batch para treinamento: {BATCH_SIZE}")
+
+print(f"  Numero de epocas para treinamento: {epochs}")
+
+
 import pandas as pd
 import numpy as np
 import torch
@@ -39,7 +52,6 @@ print("Tensor de Rotulos sendo gerado...")
 tensor_label = torch.tensor(np.array(data['label'].astype(int)))
 print("Tensor de Rotulos gerado com sucesso. Tamanho do Tensor:", tensor_label.shape)
 
-folds = 10
 print(f"Configuracao do K-Fold para {folds} folds...")
 kf = KFold(n_splits=folds)
 kf.get_n_splits(tensor_imagem)
@@ -51,8 +63,7 @@ print("Iniciando o treinamento com K-Fold Cross Validation...")
 train_loss_total = []
 val_loss_total =[]
 all_models =[]
-epochs = 10
-BATCH_SIZE = 5
+
 train_dataset = TensorDataset(tensor_imagem, tensor_label)
 ## create first model.
 print('''
@@ -72,7 +83,8 @@ for i, (train_index, test_index) in enumerate(kf.split(train_dataset)):
     val_loader_img = DataLoader(val_dataset_part, batch_size=BATCH_SIZE, shuffle=True)
 
     model= resnet_model.ECGClassifierResnet( num_classes=1)
-    salvar_model(model, path='output/modelos', name_file=f'model_fold_{i}.pth')
+    if (flg_salvar_modelos):
+        salvar_model(model, path='output/modelos', name_file=f'model_fold_{i}.pth')
     print(f'Train and valid for Fold {i}')
     t, l,_,outputs,labels = simple_loop(model, train_loader_img,val_loader_img, epochs, batch_size = BATCH_SIZE, fold_index =i)
     ## Evaluate model.
