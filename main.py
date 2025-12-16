@@ -41,7 +41,7 @@ img_dataset = np.ones((data.shape[0],3,256,256),dtype=np.uint8)
 
 j=0
 for i in data['path']:
-    img_dataset[j]=treat_image_PIL('dataset/path/'+i,2)
+    img_dataset[j]=treat_image_PIL(+i,2)
     j+=1
 tensor_imagem = torch.tensor(img_dataset)
 print("Tensor de Imagens gerado com sucesso. Tamanho do Tensor:", tensor_imagem.shape)
