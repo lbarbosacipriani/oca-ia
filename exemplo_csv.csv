@@ -1,5 +1,0 @@
-path,image_id,ID,IDADE,SEXO,ETNIA,FA,TA/Flutter,TPSV/TS,TV/FV,BAV 2º/3º/Avanc./BS,Supra ST,Corrente de Lesao,Extrassistole,BRD,BRE,MP,Normal,Outros,Exclusão
-image1.png,1,8754587,85,M,BRANCA,False,False,False,False,False,False,False,False,False,False,False,False,True,False
-image2.png,2,5151647,32,F,BRANCA,False,False,True,False,False,False,False,False,False,False,False,False,Disagree,False
-image3.png,3,4154156,60,F,BRANCA,False,False,True,False,False,False,False,False,False,False,False,False,Disagree,False
-image4.png,4,4154156,57,F,BRANCA,False,False,True,False,False,False,False,False,False,False,False,False,Disagree,False
