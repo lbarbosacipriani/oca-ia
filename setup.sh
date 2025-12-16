@@ -6,7 +6,7 @@ echo "Virtual environment criado com sucesso."
 echo "Activating virtual environment..."
 source .incor_env/bin/activate
 echo "Virtual environment ativado."
-echo "Installing packages..."
+echo "Instalando packages..."
 pip3 install -r requirements.txt
-echo "All packages have been installed." 
+echo "Todos os pacotes foram instalados." 
 python3 main.py 

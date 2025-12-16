@@ -1,24 +1,28 @@
 ### Como executar
 
-- Permitir execucao do arquivo setup.sh:
+
+1. Deve ser criado o arquivo .csv com o path e rotulo. 
+2. O path do arquivo deve ser inserido na variável FILE_PATH no arquivo main.py
+
+3. Permitir execucao do arquivo setup.sh:
         
         chmod +777 setup.sh
     
-- Executar arquivo setup.sh:
+4. Executar arquivo setup.sh:
 
         ./setup.sh
 
 
-    ### setup.sh:
+### setup.sh:
         
-        - Cria o ambiente virtual .incor_env
+    - Cria o ambiente virtual .incor_env
 
-        - Instala pacotes arquivo requirements.txt
+    - Instala pacotes arquivo requirements.txt
 
-        - Executa script main.py. 
+    - Executa script main.py. 
 
     
-   ### main.py:
+### main.py:
 
     Variaveis:
     
