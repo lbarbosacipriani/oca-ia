@@ -1,7 +1,7 @@
 import os
 
 
-FILE_PATH = 'dataset/oca_incor.csv'
+FILE_PATH = 'oca_incor.csv'
 
 
 print("Iniciando o programa...")
@@ -31,6 +31,8 @@ from simple_loop import simple_loop, salvar_model
 print(f"Leitura dos dados no arquivo '{FILE_PATH}'...")
 
 data = pd.read_csv(FILE_PATH)
+data.rename(columns={data.columns[0]:'path'}, inplace=True)
+data.rename(columns={data.columns[1]:'label'}, inplace=True)
 print("Dados lidos com sucesso. Tamnaho dos dados:", data.shape)
 
 print("Geracao Tensor de Imagens...")
