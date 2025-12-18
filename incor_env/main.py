@@ -3,23 +3,7 @@ import os
 
 FILE_PATH = 'dataset/oca_incor.csv'
 
-def config_venv():
-    print("Criando ambiente virtual...")
-    os.system("ls -la")
-    os.system("python -m venv .incor_env")
-    print("Ambiente virtual criado com sucesso.")
 
-    print("Ativando ambiente virtual...")
-    activate_script = os.path.join(".incor_env", "bin", "activate")
-    activate_command = f"source {activate_script}"
-    os.system(activate_command)
-    print("Ambiente virtual ativado.")
-
-    print("Instalando Pacotes...")
-    os.system("pip3 install -r requirements.txt ")
-    print("Todos os pacotes foram instalados.")
-
-config_venv()
 print("Iniciando o programa...")
 import pandas as pd
 import numpy as np
@@ -34,6 +18,8 @@ from simple_loop import simple_loop, salvar_model
 print(f"Leitura dos dados no arquivo '{FILE_PATH}'...")
 
 data = pd.read_csv(FILE_PATH)
+data.rename(columns={data.columns[0]:'path'}, inplace=True)
+data.rename(columns={data.columns[1]:'label'}, inplace=True)
 print("Dados lidos com sucesso. Tamnaho dos dados:", data.shape)
 
 print("Geracao Tensor de Imagens...")
@@ -55,7 +41,7 @@ print("Tensor de Rotulos sendo gerado...")
 tensor_label = torch.tensor(np.array(data['label'].astype(int)))
 print("Tensor de Rotulos gerado com sucesso. Tamanho do Tensor:", tensor_label.shape)
 
-folds = 2
+folds = 10
 print(f"Configuracao do K-Fold para {folds} folds...")
 kf = KFold(n_splits=folds)
 kf.get_n_splits(tensor_imagem)
@@ -67,7 +53,7 @@ print("Iniciando o treinamento com K-Fold Cross Validation...")
 train_loss_total = []
 val_loss_total =[]
 all_models =[]
-epochs = 2
+epochs = 10
 BATCH_SIZE = 5
 train_dataset = TensorDataset(tensor_imagem, tensor_label)
 ## create first model.
