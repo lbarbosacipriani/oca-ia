@@ -79,3 +79,8 @@ Para cada batch em dataloader_test:
 - Exibir métricas da época
 
 (Repete até terminar as épocas)
+
+
+### Estrutura arquivos de output
+
+train > fold _ {Numero do fold} > npy arquivo com ( epocas, total_base/batch (quantidade de loops de batch), batch_size).  
