@@ -52,7 +52,6 @@ def simple_loop(model, train_image, val_image, epochs, batch_size, fold_index):
             # Move inputs and labels to the device
             images = images.to(torch.float)
             image, label = images, labels
-            print(label)
             optimizer.zero_grad()
             outputs = model(image)
             loss_train = criterion(outputs.float(), label.float())
