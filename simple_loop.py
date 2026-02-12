@@ -6,6 +6,7 @@ import torch.optim as optim
 from tqdm import tqdm
 from lib.output_metrics import create_folder_if_not_exists
 
+
 device = torch.device("cuda:0" if torch.cuda.is_available() else "cpu")
 print("Device: " + str(device))
 
@@ -31,11 +32,11 @@ def simple_loop(model, train_image, val_image, epochs, batch_size, fold_index):
     iter_size = batch_size
     print(f'Number of training images per iteration: {iter_size}')
     #model = modelo( num_classes=5)
-    model.to(device)
-    criterion =  nn.L1Loss()
-    #criterion =  nn.CrossEntropyLoss()
+  # model.to(device)
+    #criterion =  nn.NLLLoss()
+    criterion =  nn.BCEWithLogitsLoss()
     # Optimizer
-    optimizer = optim.Adam(model.parameters(), lr=0.01)
+    optimizer = optim.Adam(model.parameters(), lr=0.0001)
 
     predict_label_full_train = []
     predict_label_full = []
@@ -50,12 +51,13 @@ def simple_loop(model, train_image, val_image, epochs, batch_size, fold_index):
         for images, labels in tqdm(train_image, desc='Training loop'):
             # Move inputs and labels to the device
             images = images.to(torch.float)
-            image, label = images.to(device), labels.to(device)
+            image, label = images, labels
+            print(label)
             optimizer.zero_grad()
             outputs = model(image)
-            #print(outputs)
-            #print(label)
             loss_train = criterion(outputs.float(), label.float())
+
+            #loss_train = criterion(outputs, label)
             loss_train.backward()
             optimizer.step()
             running_loss_train += loss_train.item() * label.size(0)
@@ -63,7 +65,7 @@ def simple_loop(model, train_image, val_image, epochs, batch_size, fold_index):
                 _pred_train = outputs.cpu().data.numpy().astype(int).T[0].tolist()
                 if(len(_pred_train) == iter_size):
                     predict_label_train.append(_pred_train)
-                    _true_train = label.cpu().data.numpy().astype(int).T.tolist()
+                    _true_train = label.cpu().data.numpy().astype(int).T[0].tolist()
                     true_label_train.append(_true_train)
 
             except Exception as e:
@@ -91,10 +93,13 @@ def simple_loop(model, train_image, val_image, epochs, batch_size, fold_index):
             for images, labels in tqdm(val_image, desc='Validation loop'):
                 # Move inputs and labels to the device
                 images = images.to(torch.float)
-                images, label = images.to(device), labels.to(device)
+                images, label = images, labels
                 rotulos.append(label.cpu().data.numpy())
                 outputs = model(images)
+
                 loss_valid = criterion(outputs.float(), label.float())
+                #loss_valid = criterion(outputs, label)
+
                 #print( [outputs.cpu().data.numpy().astype(int).T[0]])
                 #print(label.cpu().data.numpy().astype(int).T[0])
                 #print(predict_label)
@@ -103,7 +108,7 @@ def simple_loop(model, train_image, val_image, epochs, batch_size, fold_index):
 
                     if(len(_pred) == iter_size):
                         predict_label.append(_pred)
-                        _true = label.cpu().data.numpy().astype(int).T.tolist()
+                        _true = label.cpu().data.numpy().astype(int).T[0].tolist()
                         true_label.append(_true)
                 except Exception as e:
                     print(f"Concatenation error iter: {e}")

@@ -2,7 +2,7 @@
 from torch import nn
 import timm
 class ECGClassifierResnet(nn.Module):
-    def __init__(self, num_classes=5):
+    def __init__(self, num_classes=1):
         super(ECGClassifierResnet, self).__init__()
         # Where we define all the parts of the model
         #self.base_model = timm.create_model('efficientnet_b0', pretrained=True) 

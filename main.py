@@ -27,10 +27,13 @@ from torch.utils.data import  DataLoader, TensorDataset
 import modelos.ECGClassifierResnet as   resnet_model
 from lib.subset import Subset
 from simple_loop import simple_loop, salvar_model
+import tqdm
+
 
 print(f"Leitura dos dados no arquivo '{FILE_PATH}'...")
 
 data = pd.read_csv(FILE_PATH)
+#data = data.sample(n=500, random_state=42).reset_index(drop=True)  # Embaralha e seleciona 2000 amostras
 data.rename(columns={data.columns[0]:'path'}, inplace=True)
 data.rename(columns={data.columns[1]:'label'}, inplace=True)
 print("Dados lidos com sucesso. Tamnaho dos dados:", data.shape)
@@ -41,17 +44,19 @@ img_dataset = np.ones((data.shape[0],3,256,256),dtype=np.uint8)
 
 j=0
 for i in data['path']:
-    img_dataset[j]=treat_image_PIL(+i,2)
+    img_dataset[j]=treat_image_PIL(i,2)
     j+=1
 tensor_imagem = torch.tensor(img_dataset)
 print("Tensor de Imagens gerado com sucesso. Tamanho do Tensor:", tensor_imagem.shape)
 
 
 
+
+
 print("Tensor de Rotulos sendo gerado...")
 
 
-tensor_label = torch.tensor(np.array(data['label'].astype(int)))
+tensor_label = torch.tensor(np.array(data['label'].astype(int))).unsqueeze(1)
 print("Tensor de Rotulos gerado com sucesso. Tamanho do Tensor:", tensor_label.shape)
 
 print(f"Configuracao do K-Fold para {folds} folds...")
