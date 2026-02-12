@@ -1,7 +1,8 @@
 import os
 
 
-FILE_PATH = 'oca_incor.csv'
+FILE_PATH = 'norm_outros_dataset.csv'
+path_complementar =  '/home/leo/Documents/ecg_classifier/dataset/database_ptbxl/'
 
 
 print("Iniciando o programa...")
@@ -37,14 +38,13 @@ data = pd.read_csv(FILE_PATH)
 data.rename(columns={data.columns[0]:'path'}, inplace=True)
 data.rename(columns={data.columns[1]:'label'}, inplace=True)
 print("Dados lidos com sucesso. Tamnaho dos dados:", data.shape)
-
 print("Geracao Tensor de Imagens...")
 ## Loop
 img_dataset = np.ones((data.shape[0],3,256,256),dtype=np.uint8)
 
 j=0
 for i in data['path']:
-    img_dataset[j]=treat_image_PIL(i,2)
+    img_dataset[j]=treat_image_PIL(path_complementar,i,2)
     j+=1
 tensor_imagem = torch.tensor(img_dataset)
 print("Tensor de Imagens gerado com sucesso. Tamanho do Tensor:", tensor_imagem.shape)
