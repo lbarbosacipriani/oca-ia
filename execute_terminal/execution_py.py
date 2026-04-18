@@ -1,9 +1,9 @@
 # 🔧 DIAGNÓSTICO DE ERRO CUDA - Execute antes de treinar
 import torch
 import torch.cuda as cuda
-from execute_terminal.utils.cuda.cuda_eval import verify_mem
+from utils.cuda.cuda_eval import verify_mem
 import pandas as pd
-from PIL import Image, ImageChops
+from PIL import Image
 import numpy as np
 import torch
 from lib.ImageFIlter import treat_image_PIL
@@ -12,29 +12,18 @@ from torch.utils.data import  DataLoader, TensorDataset, Dataset
 from torch import nn
 import timm
 from tqdm.notebook import tqdm
-import torch.optim as optim
 import os
-from execute_terminal.utils.dataset.Subset import Subset
-
-from PIL import Image, ImageChops
+from utils.dataset.Subset import Subset
+from utils.dataset.datasetBuild import explore_csv, validate_and_load_images, get_image_statistics
+from utils.deepL.trainTestLoop import simple_loop
+from utils.models.Resnet import ECGClassifierResnet
 import numpy as np
-import os
-import shutil
-import io
-from pathlib import Path
+from lib.writeOutputs import salvar_model
 
 
-import os
-import psutil
-from pathlib import Path
-
-
-
-from lib.salve_image import save_file_to_dir
 from lib.ImageFIlter import treat_image_PIL
 from utils.dataset.datasetBuild import explore_csv, validate_and_load_images, get_image_statistics
 from utils.deepL.trainTestLoop import simple_loop
-from utils.writeOutputs import salvar_model, salvar_metricas   
 path = '/home/leo/Documents/ecg_classifier/dataset/database_ptbxl/'
 
 # Verificar GPU
@@ -90,43 +79,10 @@ from tqdm import tqdm
 from sklearn.metrics import accuracy_score, f1_score, precision_score, recall_score
 from torch.cuda.amp import autocast, GradScaler
 
-device = torch.device("cuda:0" if torch.cuda.is_available() else "cpu")
-print("Device: " + str(device))
 
 
 
 
-#from models import ECGClassifierResnet
-from torch import nn
-import timm
-class ECGClassifierResnet(nn.Module):
-    def __init__(self, num_classes=1):
-        super(ECGClassifierResnet, self).__init__()
-        # Where we define all the parts of the model
-        #self.base_model = timm.create_model('efficientnet_b0', pretrained=True) 
-        self.base_model=timm.create_model('resnet50d.ra4_e3600_r224_in1k',pretrained=True)
-        #self.base_model = timm.create_model('vit_mediumd_patch16_reg4_gap_256.sbb2_e200_in12k_ft_in1k',num_classes=5,pretrained=True)
-
-        self.features = nn.Sequential(*list(self.base_model.children())[:-1])
-
-        enet_out_size = 2048        # Make a classifier
-        # For binary classification com Dropout para regularização
-        self.classifier = nn.Sequential(
-            nn.Flatten(),
-            nn.Dropout(0.5),           # Dropout para regularização (reduz overfitting)
-            nn.ReLU(),
-            nn.Dropout(0.3),           # Dropout adicional antes da saída
-            nn.Linear(enet_out_size, 2)
-        ) # saida como Softmax para classificacao single label
-
-    def forward(self, x):
-        # Connect these parts and return the output
-        #converte 1 canal para 3 canais (RGB) usando uma camada Conv2d
-        #x1 = nn.Conv2d(3, 1, kernel_size=3, stride=1, padding=1)(x)  # Converte de 1 canal para 3 canais
-        x = self.features(x)
-        output = self.classifier(x)
-        #output = nn.Softmax(dim=1)(output)
-        return output
 
 
 ## Funções Otimizadas para Leitura de CSV e Carregamento de Imagens
@@ -235,7 +191,6 @@ print('''
       Inicio do treinamento com K-Fold Cross Validation
       ###############################################
       ''')
-device = 'cuda:0'
     
 
 for i, (train_index, test_index) in enumerate(kf.split(train_dataset)):
