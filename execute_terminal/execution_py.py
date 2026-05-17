@@ -6,7 +6,6 @@ import pandas as pd
 from PIL import Image
 import numpy as np
 import torch
-from lib.ImageFIlter import treat_image_PIL
 from sklearn.model_selection import KFold
 from torch.utils.data import  DataLoader, TensorDataset, Dataset
 from torch import nn
@@ -16,15 +15,14 @@ import os
 from utils.dataset.Subset import Subset
 from utils.dataset.datasetBuild import explore_csv, validate_and_load_images, get_image_statistics
 from utils.deepL.trainTestLoop import simple_loop
-from utils.models.Resnet import ECGClassifierResnet
+from utils.models import ECGClassifierResnet, ECGResnet18
 import numpy as np
 from lib.writeOutputs import salvar_model
 
-
 from lib.ImageFIlter import treat_image_PIL
+
 from utils.dataset.datasetBuild import explore_csv, validate_and_load_images, get_image_statistics
 from utils.deepL.trainTestLoop import simple_loop
-path = '/home/leo/Documents/ecg_classifier/dataset/database_ptbxl/'
 
 # Verificar GPU
 
@@ -36,9 +34,9 @@ FILE_PATH = 'norm_outros_dataset.csv'
 print("Iniciando o programa...")
 print("Parametros de Execucao:")
 folds = 5
-epochs = 50
-BATCH_SIZE = 128  # ✅ REDUZIDO de 64 para 32 (evita erro CUDA)
-N_samples = 10000
+epochs = 100
+BATCH_SIZE = 32  # ✅ REDUZIDO de 64 para 32 (evita erro CUDA)
+N_samples = 2500 # ✅ REDUZIDO de 10.000 para 5.000 (evita erro CUDA)
 flg_salvar_modelos = True
 
 print(f"  Numero de folds para K-Fold Cross Validation: {folds}")
@@ -51,7 +49,6 @@ print(f"  Numero de epocas para treinamento: {epochs}")
 
 
 ## Exemplo de uso de resize de imagem 
-path = '/home/leo/Documents/ecg_classifier/dataset/database_ptbxl/' 
 image  = treat_image_PIL('12415_lr-0.png',1)
 print(image)
 
@@ -105,7 +102,6 @@ else:
     # 3️⃣ CARREGAR IMAGENS COM VALIDAÇÃO
     img_dataset, data, error_count = validate_and_load_images(
         data=data,
-        image_path_prefix=path,  # path definido anteriormente
         n_samples=N_samples,
         max_errors=10
     )
@@ -155,16 +151,10 @@ data_tensor = TensorDataset(tensor_imagem, tensor_label)
 print("Dataset de dados (imagens + labels) criado com sucesso. Tamanho do Dataset:", len(data_tensor))
 
 
-## Distribuicao das amostras
-## Histograma da distribuicao das amostras
-import matplotlib.pyplot as plt
-plt.figure(figsize=(8, 6))  
-data['label'].value_counts().plot(kind='bar')
-plt.title('Distribuição das Amostras por Classe')
-plt.xlabel('Classe')
-plt.ylabel('Contagem de Amostras')
-plt.show()
 
+data['label'].value_counts()
+print("Distribuição de Labels:")
+print(data['label'].value_counts())
 
 
 print("Tensor de Rotulos sendo gerado...")
@@ -204,12 +194,12 @@ for i, (train_index, test_index) in enumerate(kf.split(train_dataset)):
     train_loader_img = DataLoader(train_dataset_part, batch_size=BATCH_SIZE, shuffle=True)
     val_loader_img = DataLoader(val_dataset_part, batch_size=BATCH_SIZE, shuffle=True)
 
-    model= ECGClassifierResnet()
+    model= ECGClassifierResnet.ECGClassifierResnet()
     if (flg_salvar_modelos):
         salvar_model(model, path='output/modelos', name_file=f'model_fold_{i}.pth')
     print(f'Train and valid for Fold {i}')
     # Treina com Early Stopping (patience=5 épocas, delta=0.001)
-    t, l,_,outputs,labels = simple_loop(model, train_loader_img, val_loader_img, epochs, batch_size=BATCH_SIZE, fold_index=i, patience=5, delta=0.0001)
+    t, l,_,outputs,labels = simple_loop(model, train_loader_img, val_loader_img, epochs, batch_size=BATCH_SIZE, fold_index=i, patience=5, delta=0.0001,device_input=device)
     ## Evaluate model.
     train_loss_total.append(t)
     val_loss_total.append(l)

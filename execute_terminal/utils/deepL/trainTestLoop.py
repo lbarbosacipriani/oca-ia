@@ -1,11 +1,16 @@
 
+from xml.parsers.expat import model
+
 import torch
 import torch.nn as nn
 import torch.optim as optim
 import numpy as np
 from sklearn.metrics import accuracy_score, f1_score, precision_score, recall_score
 from tqdm import tqdm
-from lib.writeOutputs import salvar_metricas
+from lib.writeOutputs import salvar_metricas#
+#import ReduceLROnPlateau
+from torch.optim.lr_scheduler import ReduceLROnPlateau
+
 
 def simple_loop(model, train_image, val_image, epochs, batch_size, fold_index, patience=10, delta=0.001, device_input=None):
     """
@@ -42,8 +47,9 @@ def simple_loop(model, train_image, val_image, epochs, batch_size, fold_index, p
     
     criterion = nn.CrossEntropyLoss()
     # Optimizer COM regularização (weight_decay)
-    optimizer = optim.Adam(model.parameters(), lr=0.01, weight_decay=1e-4)
-
+    optimizer = torch.optim.Adam(model.parameters(), lr=1e-3)
+    scheduler = torch.optim.lr_scheduler.ReduceLROnPlateau(optimizer, mode='min',
+        factor=0.1, patience=10, threshold=0.0001, threshold_mode='abs')
     predict_label_full_train = []
     predict_label_full = []
     true_label_full_train = []
@@ -144,7 +150,8 @@ def simple_loop(model, train_image, val_image, epochs, batch_size, fold_index, p
                     outputs = model(images)
                     
                     loss_valid = criterion(outputs.to(torch.float32), labels.squeeze())
-                    
+                    scheduler.step(loss_valid)
+
                     # Get predictions
                     _pred = torch.argmax(outputs, dim=1)
                     

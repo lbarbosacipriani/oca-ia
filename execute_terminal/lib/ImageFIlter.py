@@ -4,8 +4,8 @@ import os
 import shutil
 import io
 from pathlib import Path
-mask = Image.open('dataset/mask.png' ) 
-path = 'dataset/path/'
+#mask = Image.open('dataset/mask.png' ) 
+path = '/home/leo/Documents/ecg_classifier/dataset/database_ptbxl/'
 
 def treat_image_PIL(img_path, type_return=2):
     ''''
@@ -17,7 +17,8 @@ def treat_image_PIL(img_path, type_return=2):
 
     Output:
     '''
-    im = Image.open(path+img_path) 
+    #print(f"Processing image: {img_path} with type_return={type_return} and path    ={path}")
+    im = Image.open(path + img_path) 
     
     # Size of the image in pixels (size of original image) 
     # (This is not mandatory) 

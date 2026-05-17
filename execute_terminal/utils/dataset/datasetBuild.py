@@ -6,7 +6,7 @@ import numpy as np
 from lib.ImageFIlter import treat_image_PIL
 
 
-from tqdm.notebook import tqdm
+from tqdm import tqdm
 
 def explore_csv(csv_path, max_rows=5):
     """
@@ -71,7 +71,7 @@ def explore_csv(csv_path, max_rows=5):
 
 
 
-def validate_and_load_images(data, image_path_prefix, n_samples=None, max_errors=10):
+def validate_and_load_images(data, n_samples=None, max_errors=10):
     """
     Valida e carrega imagens com tratamento robusto de erros.
     
@@ -96,7 +96,6 @@ def validate_and_load_images(data, image_path_prefix, n_samples=None, max_errors
     
     print(f"\n📌 Configuração:")
     print(f"  Amostras a processar: {len(data_sample)}")
-    print(f"  Prefixo de caminho: {image_path_prefix}")
     print(f"  Máximo de erros permitidos: {max_errors}")
     
     # Verificar memória disponível
@@ -118,11 +117,6 @@ def validate_and_load_images(data, image_path_prefix, n_samples=None, max_errors
     for idx, row in tqdm(data_sample.iterrows(), total=len(data_sample), desc='Carregando imagens'):
         try:
             img_path = row.iloc[0]  # Primeira coluna = caminho
-            full_path = os.path.join(image_path_prefix, img_path)
-            
-            # Verificar se arquivo existe
-            if not os.path.exists(full_path):
-                raise FileNotFoundError(f"Imagem não encontrada: {full_path}")
             
             # Carregar imagem
             img = treat_image_PIL(img_path, type_return=3)

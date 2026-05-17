@@ -1,2 +1,6 @@
 .vevn/*
 *.pyc
+dataset/data/*
+dataset/processed/*
+dataset_AFIB_Others/data/*
+dataset_AFIB_Others/processed/*
