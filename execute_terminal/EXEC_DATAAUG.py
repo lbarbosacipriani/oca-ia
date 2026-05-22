@@ -54,10 +54,10 @@ FILE_PATH = '../dataset_AFIB_Others/data_balanced_AFIB_OTHERS.csv'
 
 print("Iniciando o programa...")
 print("Parametros de Execucao:")
-folds = 3
-epochs = 20
+folds = 5
+epochs = 30
 BATCH_SIZE = 32  # ✅ REDUZIDO de 64 para 32 (evita erro CUDA)
-N_samples = 3000
+N_samples = None
 N_DATA_AUG = 10
 flg_salvar_modelos = True
 path = '../dataset_AFIB_Others/data/'
