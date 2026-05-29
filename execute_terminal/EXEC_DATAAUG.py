@@ -57,7 +57,7 @@ print("Parametros de Execucao:")
 folds = 5
 epochs = 30
 BATCH_SIZE = 32  # ✅ REDUZIDO de 64 para 32 (evita erro CUDA)
-N_samples = None
+N_samples = 1000
 N_DATA_AUG = 10
 flg_salvar_modelos = True
 path = '../dataset_AFIB_Others/data/'
@@ -851,7 +851,8 @@ for i, (train_index, test_index) in enumerate(kf.split(train_dataset)):
     print(f"Training for {len(train_index)} images and valid for {len(test_index)} images")
     train_dataset_part = Subset( train_dataset, train_index)
     val_dataset_part = Subset( train_dataset, test_index)
-
+    print(f"  Train dataset part: {len(train_dataset_part)} samples")
+    print(f"  Val dataset part: {len(val_dataset_part)} samples")
     train_loader_img = DataLoader(train_dataset_part, batch_size=BATCH_SIZE, shuffle=True)
     val_loader_img = DataLoader(val_dataset_part, batch_size=BATCH_SIZE, shuffle=True)
 
