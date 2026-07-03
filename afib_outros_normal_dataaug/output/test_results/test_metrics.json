@@ -1,0 +1,37 @@
+{
+  "model_fold_0.pth": {
+    "accuracy": 0.09814612868047982,
+    "f1_macro": 0.07019367118724722,
+    "precision_macro": 0.2911746031746032,
+    "recall_macro": 0.332391713747646,
+    "n_test": 917
+  },
+  "model_fold_1.pth": {
+    "accuracy": 0.06514657980456026,
+    "f1_macro": 0.040774719673802244,
+    "precision_macro": 0.021715526601520086,
+    "recall_macro": 0.3333333333333333,
+    "n_test": 921
+  },
+  "model_fold_2.pth": {
+    "accuracy": 0.7472885032537961,
+    "f1_macro": 0.2867249271743654,
+    "precision_macro": 0.2583427071616048,
+    "recall_macro": 0.32211313697989713,
+    "n_test": 922
+  },
+  "model_fold_3.pth": {
+    "accuracy": 0.15384615384615385,
+    "f1_macro": 0.08888888888888889,
+    "precision_macro": 0.05128205128205129,
+    "recall_macro": 0.3333333333333333,
+    "n_test": 923
+  },
+  "model_fold_4.pth": {
+    "accuracy": 0.06571741511500548,
+    "f1_macro": 0.042245536088766245,
+    "precision_macro": 0.13212881022615536,
+    "recall_macro": 0.32344433554062774,
+    "n_test": 913
+  }
+}
