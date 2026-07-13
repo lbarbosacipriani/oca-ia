@@ -1,0 +1,103 @@
+###############################################
+      Inicio do treinamento com K-Fold Cross Validation
+      ###############################################
+      
+Fold 0:
+
+################################################################################
+train e val split para fold 15095  e 3774...
+✓ DataFrame dividido com sucesso:
+  Total de amostras: 15280
+  Conjunto de treino e validação: 12224 amostras
+  Conjunto de teste: 3056 amostras
+  Conjunto de teste salvo em: saidas/output/test_df_0.csv
+Analise estatistica do conjunto de teste:
+rotulo
+100    2360
+010     498
+001     198
+Name: count, dtype: int64
+Analise estatistica do conjunto de treino:
+rotulo
+100    9399
+010    1970
+001     855
+Name: count, dtype: int64
+
+################################################################################
+
+################################################################################
+
+================================================================================
+🖼️  VALIDAÇÃO E CARREGAMENTO DE IMAGENS
+================================================================================
+
+📌 Configuração:
+  Amostras a processar: 12224
+  Prefixo de caminho: /content/content/drive/MyDrive/dataset_AFIB_Others/database_ptbxl/
+  Máximo de erros permitidos: 10
+
+💾 Memória disponível: 48.68 GB
+  Memória estimada para imagens: 2.24 GB
+
+🔄 Carregando imagens...
+Carregando imagens: 100%|██████████| 12224/12224 [26:13<00:00,  7.77it/s]
+
+✅ Carregamento concluído!
+  Imagens carregadas com sucesso: 12224
+  Imagens com erro: 0
+  Shape final: (12224, 3, 256, 256)
+================================================================================
+Applying augmentation: 100%|██████████| 12224/12224 [00:49<00:00, 248.85it/s]
+✓ Data augmentation completed for all images.
+✓ Data augmentation aplicada. Novo shape do dataset: torch.Size([36672, 3, 256, 256]) no formato TensorDataset (imagens + labels)
+Dataset de treino de dados (imagens + labels) criado com sucesso. Tamanho do Dataset: 36672
+/content/content/drive/MyDrive/dataset_AFIB_Others/database_ptbxl/
+
+================================================================================
+🖼️  VALIDAÇÃO E CARREGAMENTO DE IMAGENS
+================================================================================
+
+📌 Configuração:
+  Amostras a processar: 3856
+  Prefixo de caminho: /content/content/drive/MyDrive/dataset_AFIB_Others/database_ptbxl/
+  Máximo de erros permitidos: 10
+
+💾 Memória disponível: 39.83 GB
+  Memória estimada para imagens: 0.71 GB
+
+🔄 Carregando imagens...
+Carregando imagens: 100%|██████████| 3856/3856 [08:15<00:00,  7.78it/s]
+
+✅ Carregamento concluído!
+  Imagens carregadas com sucesso: 3856
+  Imagens com erro: 0
+  Shape final: (3856, 3, 256, 256)
+================================================================================
+Dataset de validação de dados (imagens + labels) SEM DATAAUG criado com sucesso. Tamanho do Dataset: 3856
+
+################################################################################
+Resumo do Fold 0:
+  Tamanho do conjunto de treino: 36672
+  Tamanho do conjunto de validação: 3856
+  Distribuição de labels no treino:
+rotulo
+100    18798
+010     3940
+001     1710
+Name: count, dtype: int64
+  Distribuição de labels na validação:
+rotulo
+100    6082
+010    1222
+001     408
+Name: count, dtype: int64
+
+################################################################################
+/usr/local/lib/python3.12/dist-packages/huggingface_hub/utils/_auth.py:138: UserWarning: 
+Error while fetching `HF_TOKEN` secret value from your vault: 'Requesting secret HF_TOKEN timed out. Secrets can only be fetched when running from the Colab UI.'.
+You are not authenticated with the Hugging Face Hub in this notebook.
+If the error persists, please let us know by opening an issue on GitHub (https://github.com/huggingface/huggingface_hub/issues/new).
+  warnings.warn(
+Warning: You are sending unauthenticated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.
+WARNING:huggingface_hub.utils._http:Warning: You are sending unauthenticated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.
